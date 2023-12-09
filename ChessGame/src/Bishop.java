@@ -25,7 +25,7 @@ public class Bishop extends Piece {
             int x = start.getX() + xDir;
             int y = start.getY() + yDir;
 
-// Yol boyunca herhangi bir taş var mı kontrol
+            // Yol boyunca herhangi bir taş var mı kontrol
             while (x != destination.getX() && y != destination.getY()) {
                 if (board.getCell(x, y).getPiece() != null) {
                     return false; // Yolda bir taş varsa gidemez
@@ -36,6 +36,6 @@ public class Bishop extends Piece {
 
             return true;
         }
-        return false; // gitmek istediği konum çaprazında değilse gidemez
+        return false; // gitmek istediği konum çaprazında değilse gidemez
 }
 }
