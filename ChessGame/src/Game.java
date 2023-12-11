@@ -53,6 +53,11 @@ public class Game {
             return false;
         }
 
+        //  Yapilan hamle sonucu Sah tehdit altinda kaliyor mu?
+        if (move.resultInThreat(move.getStart(), move.getDestination(), board, currentTurn)){
+            return false;
+        }
+
         //  Secili tas piyon ise sonraki hamlelerdde 2 kare ilerlememesi icin moved attribute'u true olur.
         if (selectedPiece instanceof Pawn){
             ((Pawn) selectedPiece).setMoved(true);
