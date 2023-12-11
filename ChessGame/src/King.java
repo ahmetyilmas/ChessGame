@@ -12,9 +12,6 @@ public class King extends Piece{
     public void setCastlingDone(boolean castlingDone){
         this.castlingDone = castlingDone;
     }
-
-    //Hareket etmesi istenirse ancak rakip tas tarafindan yenme durumu olursa belirtilen noktaya hareket edememeli.
-    //Daha sonra eklenecek.
     public boolean canMove(Cell start, Cell destination, Board board){
 
         //  Sah X ve Y ekseninde en fazla 1er kare ilerleyebilmeli.
@@ -76,5 +73,73 @@ public class King extends Piece{
 
         }else
             return false;
+    }
+
+    //  Beyaz Sah'in yerini bulan fonksiyon:
+    public Cell whiteKingsPosition(Board board){
+        Cell whiteKingsPosition = new Cell(0, 0, null);
+        for (int y = 0; y <= 7; y++){
+            for (int x = 0; x <=7; x++){
+                if (board.getCell(x, y).getPiece() instanceof King && board.getCell(x, y).getPiece().isWhite()) {
+                    whiteKingsPosition = board.getCell(x, y);
+                    break;
+                }
+            }
+        }
+        return whiteKingsPosition;
+    }
+
+
+    //  Siyah Sah'in yerini bulan fonksiyon:
+    public Cell blackKingsPosition(Board board){
+        Cell blackKingsPosition = new Cell(0, 0, null);
+        for (int y = 0; y <= 7; y++){
+            for (int x = 0; x <=7; x++){
+                if (board.getCell(x, y).getPiece() instanceof King && board.getCell(x, y).getPiece().isWhite()) {
+                    blackKingsPosition = board.getCell(x, y);
+                    break;
+                }
+            }
+        }
+        return blackKingsPosition;
+    }
+
+
+    //  Beyaz Sah'in tehdit altinda olup olmadigini kontrol eden fonksiyon:
+    public boolean isWhiteUnderThreat(Board board){
+
+        //  Beyaz Sah'in yerinin bulunmasi:
+        Cell whiteKingsPosition = whiteKingsPosition(board);
+
+        //  Sol üstten baslayarak tum hucreleri kontrol eder ve kontrol ettigi hucredeki tas siyahsa
+        //  Sah'in hucresine gidip gidemeyecegini kontrol eder.Gidebiliyorsa true dondurur.
+        for (int y = 0; y <= 7; y++){
+            for (int x = 0; x <= 7; x++){
+                if (!board.getCell(x, y).getPiece().isWhite() &&
+                        board.getCell(x, y).getPiece().canMove(board.getCell(x, y), whiteKingsPosition, board)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    //  Siyah Sah'in tehdit altinda olup olmadigini kontrol eden fonksiyon:
+    public boolean isBlackUnderThreat(Board board){
+
+        //  Sah'in yerinin bulunmasi:
+        Cell blackKingsPosition = blackKingsPosition(board);
+
+        //  Sol üstten baslayarak tum hucreleri kontrol eder ve kontrol ettigi hucredeki tas beyazsa
+        //  Sah'in hucresine gidip gidemeyecegini kontrol eder.Gidebiliyorsa true dondurur.
+        for (int y = 0; y <= 7; y++){
+            for (int x = 0; x <= 7; x++){
+                if (board.getCell(x, y).getPiece().isWhite() &&
+                        board.getCell(x, y).getPiece().canMove(board.getCell(x, y), blackKingsPosition, board)){
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }
