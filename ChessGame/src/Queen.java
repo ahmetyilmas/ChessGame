@@ -11,7 +11,7 @@ public class Queen extends Piece {
     public boolean canMove(Cell start, Cell destination, Board board) {
 
         // Hedef hücrede aynı renkte başka bir taş varsa
-        if (start.getPiece().isWhite() == destination.getPiece().isWhite()) {
+        if (start.getPiece().isWhite() && destination.getPiece() != null && destination.getPiece().isWhite()) {
             return false;
         }
 
