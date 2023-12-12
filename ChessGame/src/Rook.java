@@ -1,10 +1,13 @@
 public class Rook extends Piece {
-
+    private String type = "R";
     private boolean castlingDone;   //Rok yapip yapmama durununu kontrol etmek icin degisken.
     public Rook(boolean white) {
         super(white);
     }
 
+    public String getType(){
+        return this.type;
+    }
     public void setCastlingDone(boolean castlingDone){
         this.castlingDone = castlingDone;
     }

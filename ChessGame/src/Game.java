@@ -1,16 +1,21 @@
+import java.util.concurrent.SubmissionPublisher;
+
 public class Game {
-    private Player[] players;
-    private Board board;
+    private Player[] players = new Player[2];
+    private Board board = new Board();
     private Player currentTurn;
     private GameStatus status;
 
+    public Player getCurrentTurn(){
+        return this.currentTurn;
+    }
     public GameStatus getStatus(){
         return this.status;
     }
     public void setStatus(GameStatus status){
         this.status = status;
     }
-    private void initialize(Player player1, Player player2){
+    public void initialize(Player player1, Player player2){
         players[0] = player1;
         players[1] = player2;
 
@@ -21,6 +26,10 @@ public class Game {
         }else{
             this.currentTurn = player2;
         }
+        setStatus(GameStatus.ACTIVE);
+    }
+    public Board getBoard(){
+        return this.board;
     }
     public boolean playerMove(Player player, int startX, int startY, int destinationX, int destinationY){
         Cell startCell = board.getCell(startX, startY);
@@ -35,28 +44,43 @@ public class Game {
 
         //  Secili hucrede tas yoksa hamle yapilamaz.
         if (selectedPiece == null){
+            System.out.println("Secilen hucrede tas yok");
             return false;
         }
 
         //  Sirasi gelen kisi mi hamle yapiyor?
         if (player != currentTurn){
+            System.out.println("Sirasi gelen kisi hamle yapmiyor");
             return false;
         }
 
         //  Secili tas sirasi gelen kisinin tasi mi?
         if (selectedPiece.isWhite() != currentTurn.isWhiteSide()){
+            System.out.println("Sirasi gelen kisi kendi taslarini oynamiyor");
             return false;
         }
 
         //  Secili tas belirtilen hamleyi yapabilir mi?
         if (!selectedPiece.canMove(move.getStart(), move.getDestination(), board)){
+            System.out.println("Secili tas istenilen konuma gidemez");
             return false;
         }
 
+        //  Asagidaki durum kontrol edilmeden onceki secili hucrelerin kopyasi:
+        Cell copyOfStart = new Cell(move.getStart().getX(), move.getStart().getY(), move.getStart().getPiece());
+        Cell copyOfDestination = new Cell(move.getDestination().getX(), move.getDestination().getY(), move.getDestination().getPiece());
+
         //  Yapilan hamle sonucu Sah tehdit altinda kaliyor mu?
         if (move.resultInThreat(move.getStart(), move.getDestination(), board, currentTurn)){
+            System.out.println("yapilan hamle sonucu sah tehdit altinda kalir");
             return false;
         }
+
+        //  Sah'in tehdit altinda kalma durumu kontrol edildikten sonra taslarin yerlerine geri donmesi:
+
+        move.getDestination().setPiece(copyOfDestination.getPiece());
+        move.getStart().setPiece(copyOfStart.getPiece());
+
 
         //  Secili tas piyon ise sonraki hamlelerdde 2 kare ilerlememesi icin moved attribute'u true olur.
         if (selectedPiece instanceof Pawn){

@@ -1,8 +1,12 @@
 public class King extends Piece{
+    private String type = "S";
     private boolean alive = true;
     private boolean castlingDone = false;   //  Eger sah hareket etmis ise oyuncu rok yapamamali.
     public King(boolean white){
         super(white);
+    }
+    public String getType(){
+        return this.type;
     }
 
 
@@ -115,7 +119,7 @@ public class King extends Piece{
         //  Sah'in hucresine gidip gidemeyecegini kontrol eder.Gidebiliyorsa true dondurur.
         for (int y = 0; y <= 7; y++){
             for (int x = 0; x <= 7; x++){
-                if (!board.getCell(x, y).getPiece().isWhite() &&
+                if (board.getCell(x, y).getPiece() != null && !board.getCell(x, y).getPiece().isWhite() &&
                         board.getCell(x, y).getPiece().canMove(board.getCell(x, y), whiteKingsPosition, board)){
                     return true;
                 }
@@ -134,7 +138,7 @@ public class King extends Piece{
         //  Sah'in hucresine gidip gidemeyecegini kontrol eder.Gidebiliyorsa true dondurur.
         for (int y = 0; y <= 7; y++){
             for (int x = 0; x <= 7; x++){
-                if (board.getCell(x, y).getPiece().isWhite() &&
+                if (board.getCell(x, y).getPiece() != null && board.getCell(x, y).getPiece().isWhite() &&
                         board.getCell(x, y).getPiece().canMove(board.getCell(x, y), blackKingsPosition, board)){
                     return true;
                 }

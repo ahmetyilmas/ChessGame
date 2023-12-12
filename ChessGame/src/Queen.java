@@ -1,9 +1,12 @@
 public class Queen extends Piece {
-
+    private String type = "Q";
     public Queen(boolean white) {
         super(white);
     }
 
+    public String getType(){
+        return this.type;
+    }
     @Override
     public boolean canMove(Cell start, Cell destination, Board board) {
 

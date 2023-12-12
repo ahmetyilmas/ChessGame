@@ -21,24 +21,24 @@ public class Move {
     //  Yapilan hamle sonucu Sah'in tehdit altinda kalip kalmayacagi durumu kontrol eder.
     //  Tehdit altinda kaliyorsa true dondurur.
     public boolean resultInThreat(Cell start, Cell destination, Board board, Player player){
-        //  Hamle yapilmis varsayilarak olusacak durumu incelemek icin kullanilacak satranc tahtasi.
-        Board cloneBoard = board;
 
-        if (start.getPiece().canMove(start, destination, cloneBoard)){
+
+
+        if (start.getPiece().canMove(start, destination, board)){
 
             destination.setPiece(start.getPiece());
             start.setPiece(null);
         }
         if (player.isWhiteSide()){
 
-            Cell whiteKingsPosition = whiteKingsPosition(cloneBoard);
+            Cell whiteKingsPosition = whiteKingsPosition(board);
             return whiteKingsPosition.getPiece() instanceof King &&
-                    ((King) whiteKingsPosition.getPiece()).isWhiteUnderThreat(cloneBoard);
+                    ((King) whiteKingsPosition.getPiece()).isWhiteUnderThreat(board);
 
         } else if (!player.isWhiteSide()) {
-            Cell blackKingPosition = blackKingsPosition(cloneBoard);
+            Cell blackKingPosition = blackKingsPosition(board);
             return blackKingPosition.getPiece() instanceof King &&
-                    (((King) blackKingPosition.getPiece()).isBlackUnderThreat(cloneBoard));
+                    (((King) blackKingPosition.getPiece()).isBlackUnderThreat(board));
         }
         return false;
     }

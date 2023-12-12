@@ -1,11 +1,18 @@
 public class Knight extends Piece {
-
+    private String type = "K";
     public Knight(boolean white) {
         super(white);
+    }
+    public String getType(){
+        return this.type;
     }
 
     @Override
     public boolean canMove(Cell start, Cell destination, Board board) {
+
+        if (destination.getPiece() == null){
+            return true;
+        }
 
         // Hedef hücrede aynı renkte başka bir taş varsa
         if (start.getPiece().isWhite() == destination.getPiece().isWhite()) {
